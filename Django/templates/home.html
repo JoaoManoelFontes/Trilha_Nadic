@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {% for book in books %}
+    <h1>{{book.title}}</h1>
+    <p>{{book.category}}</p>
+    <h3>{{book.price}}</h3>
+    <p>
+      Estoque: {% if book.quantity > 0 %} {{book.quantity}} {% else %}
+      Indisponível {% endif %}
+    </p>
+    <a><button>Vender</button></a>
+    {% endfor %}
+  </body>
+</html>
