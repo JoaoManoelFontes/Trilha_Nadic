@@ -6,7 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
+  <nav>
+    <a href="/admin/login/?next=/admin/"><button>Login</button></a>
+    <form method="GET" action="{% url 'home' %}">
+      <input
+        type="text"
+        name="q"
+        placeholder="Search Books..."
+        value="{{query}}"
+      />
+    </form>
+  </nav>
   <body>
+    <p>{{books_avaliable}} book(s) avaliable</p>
     {% for book in books %}
     <h1>{{book.title}}</h1>
     <p>{{book.category}}</p>
@@ -16,6 +28,12 @@
       Indisponível {% endif %}
     </p>
     <a><button>Vender</button></a>
+    {% endfor %} {% for category in categories %}
+    <ul>
+      <li>
+        <a href="{% url 'home' %}?q={{category.name}}">{{category.name}}</a>
+      </li>
+    </ul>
     {% endfor %}
   </body>
 </html>
