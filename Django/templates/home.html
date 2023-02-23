@@ -27,8 +27,18 @@
       Estoque: {% if book.quantity > 0 %} {{book.quantity}} {% else %}
       Indisponível {% endif %}
     </p>
-    <a><button>Vender</button></a>
-    {% endfor %} {% for category in categories %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'sale' book_id=book.id %}"><button>Vender</button></a>
+    <form action="{% url 'add_book' book_id=book.id %}" method="get">
+      <label for="quantity">Adicionar ao estoque</label>
+      <input id="quantity" type="number" name="quantity" />
+    </form>
+    {% else %}
+    <p>Faça login para ter acesso às ações</p>
+    <button disabled>Vender</button>
+    <a><button disabled>Adicionar ao estoque</button></a>
+    <span>Faça login para vender um produto</span>
+    {% endif %} {% endfor %} {% for category in categories %}
     <ul>
       <li>
         <a href="{% url 'home' %}?q={{category.name}}">{{category.name}}</a>
