@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
 from django.db.models import Q
 
-# from django.http import HttpResponse
 
 from .forms.book_form import BookForm
+from .forms.category_form import CategoryForm
 
 from .models import Book, Category, Sale
 
@@ -64,13 +64,40 @@ def add_book(request, book_id):
 def register_book(request):
     """Rota de cadastro de livros"""
     if request.method == "POST":
+        # Pegando os dados passados pelo método POST
         book = BookForm(request.POST)
         if book.is_valid():
+            # Salvando o livro se ele for válido
             book.save()
             return redirect("home")
     return render(request, "book_form.html", {"form": BookForm()})
 
 
+def register_category(request):
+    """Rota de cadastro de categorias"""
+    if request.method == "POST":
+        # Pegando os dados passados pelo método POST
+        category = CategoryForm(request.POST)
+        if category.is_valid():
+            # Salvando o livro se ele for válido
+            category.save()
+            return redirect("register_book")
+    return render(request, "category_form.html", {"form": CategoryForm()})
+
+
 # Rota de edição de livros
+def update_book(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    if request.method == "POST":
+        book_form = BookForm(request.POST, instance=book)
+        if book_form.is_valid():
+            book_form.save()
+            return redirect("home")
+    return render(
+        request,
+        "book_form.html",
+        {"form": BookForm(instance=book)},
+    )
+
 
 # Rota de histórico de vendas

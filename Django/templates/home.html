@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <link rel="stylesheet" href="{% static 'css\home.css' %}" />
   </head>
   <nav>
     <a href="/admin/login/?next=/admin/"><button>Login</button></a>
@@ -18,27 +22,69 @@
     </form>
   </nav>
   <body>
-    <p>{{books_avaliable}} book(s) avaliable</p>
-    {% for book in books %}
-    <h1>{{book.title}}</h1>
-    <p>{{book.category}}</p>
-    <h3>{{book.price}}</h3>
-    <p>
-      Estoque: {% if book.quantity > 0 %} {{book.quantity}} {% else %}
-      Indisponível {% endif %}
-    </p>
-    {% if user.is_authenticated %}
-    <a href="{% url 'sale' book_id=book.id %}"><button>Vender</button></a>
-    <form action="{% url 'add_book' book_id=book.id %}" method="get">
-      <label for="quantity">Adicionar ao estoque</label>
-      <input id="quantity" type="number" name="quantity" />
-    </form>
-    {% else %}
-    <p>Faça login para ter acesso às ações</p>
-    <button disabled>Vender</button>
-    <a><button disabled>Adicionar ao estoque</button></a>
-    <span>Faça login para vender um produto</span>
-    {% endif %} {% endfor %} {% for category in categories %}
+    <div class="book_count">
+      <p>{{books_avaliable}} livro(s) encontrados</p>
+    </div>
+    <div class="main_container">
+      {% for book in books %}
+      <div class="main_item">
+        <h1>{{book.title}}</h1>
+        <p>Sinópse : {{book.synopsis}}</p>
+        <p>Categoria: {{book.category}}</p>
+        <br />
+        <h3>{{book.price}}</h3>
+        {% if user.is_authenticated %} {% if book.quantity > 0 %}
+        <p>Estoque: {{book.quantity}}</p>
+        <br />
+        <a href="{% url 'sale' book_id=book.id %}"><button>Vender</button></a>
+        <form action="{% url 'add_book' book_id=book.id %}" method="get">
+          <label for="quantity">Adicionar ao estoque</label>
+          <input
+            id="quantity"
+            type="number"
+            name="quantity"
+            placeholder="selecione um número..."
+          />
+        </form>
+        <br />
+        <a href="{% url 'update_book' book_id=book.id %}"
+          ><button>Editar {{book.title}}</button></a
+        >
+        {% else %}
+        <p>Estoque: Indisponível</p>
+        <br />
+        <form action="{% url 'add_book' book_id=book.id %}" method="get">
+          <label for="quantity">Adicionar ao estoque</label>
+          <input
+            id="quantity"
+            type="number"
+            name="quantity"
+            placeholder="selecione um número..."
+          />
+        </form>
+        <br />
+        <a href="{% url 'update_book' book_id=book.id %}"
+          ><button>Editar {{book.title}}</button></a
+        >
+        {% endif %} {% else %}
+        <p>Faça login para ter acesso às ações</p>
+        <br />
+        <button disabled>Vender</button>
+        <input
+          id="quantity"
+          type="number"
+          name="quantity"
+          placeholder="selecione um número..."
+          disabled
+        />
+        <br />
+        <button disabled>Editar {{book.title}}</button>
+        {% endif %}
+      </div>
+      <hr />
+      {% endfor %}
+    </div>
+    {% for category in categories %}
     <ul>
       <li>
         <a href="{% url 'home' %}?q={{category.name}}">{{category.name}}</a>
