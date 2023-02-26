@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Q
 
 
@@ -6,6 +6,7 @@ from .forms.book_form import BookForm
 from .forms.category_form import CategoryForm
 
 from .models import Book, Category, Sale
+from django.contrib.auth.models import User
 
 
 def home(request):
@@ -79,7 +80,7 @@ def register_book(request):
         return render(
             request,
             "book_form.html",
-            {"form": BookForm(), "errors": book.errors},  # noqa
+            {"form": BookForm(), "errors": book.errors},
         )
 
     return render(request, "book_form.html", {"form": BookForm()})
@@ -109,7 +110,7 @@ def update_book(request, book_id):
         return render(
             request,
             "book_form.html",
-            {"form": BookForm(instance=book), "errors": book_form.errors},  # noqa
+            {"form": BookForm(instance=book), "errors": book_form.errors},
         )
 
     return render(
@@ -128,5 +129,19 @@ def delete_book(request, book_id):
 
 def sales_history(request):
     """Rota de histórico de vendas"""
-    sales = Sale.objects.all()
-    return render(request, "sales.html", {"sales": sales})
+    billing = []
+    if request.GET.get("seller") is not None:
+        # Obtendo o usuário e filtrando as vendas dele
+        user = get_object_or_404(User, username=request.GET.get("seller"))
+        sales = Sale.objects.filter(seller=user)
+    else:
+        # Obtendo todas as vendas
+        sales = Sale.objects.all()
+
+    # Calculando o valor total das vendas (em geral ou de um usuário)
+    for sale in sales:
+        billing.append(sale.book.price)
+
+    return render(
+        request, "sales.html", {"sales": sales, "billing": sum(billing)}
+    )  # noqa

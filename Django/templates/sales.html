@@ -1,9 +1,17 @@
 {% extends 'main.html' %} {% block content %} {% load static %}
 <h1>Histórico de vendas:</h1>
-
+<form method="get" action="{% url 'sales_history'%}">
+  <button type="submit" name="seller" value="{{request.user}}">
+    Suas vendas
+  </button>
+</form>
 {% for sale in sales %}
 <p>Venda de: {{sale.book.title}}</p>
 <p>{{sale.book.price}}</p>
 <p>{{sale.seller}}</p>
 <p>{{sale.client_name}}</p>
-{% endfor %} {% endblock %}
+{% endfor %}
+<hr />
+<h2>Faturamento total:</h2>
+<p>{{billing}}</p>
+{% endblock %}

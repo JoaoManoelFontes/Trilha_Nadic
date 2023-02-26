@@ -10,9 +10,12 @@
   </head>
   <body>
     <header>
-      <h1>Bookstore</h1>
+      <a href="{% url 'home' %}"><h1>Bookstore</h1></a>
       <nav>
         <a href="{% url 'register_book' %}"><button>Adicionar livro</button></a>
+        <a href="{% url 'sales_history' %}"
+          ><button>Histórico de Vendas</button></a
+        >
         <a href="/admin/logout/"><button>Sair</button></a>
       </nav>
     </header>
