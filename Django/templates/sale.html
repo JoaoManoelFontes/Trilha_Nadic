@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>Informações da venda:</h3>
+    <p>Vendedor: {{request.user}}</p>
+    <p>Livro: {{book.title}}</p>
+    <p>Preço: {{book.price}}</p>
+    <p>Estoque: {{book.quantity}}</p>
+    <form method="post" action="{% url 'sale' book_id=book.id %}">
+      {% csrf_token %}
+      <label for="client">Para:</label><br />
+      <input
+        type="text"
+        name="client"
+        id="client"
+        placeholder="Digite o nome do cliente..."
+        style="width: 12%"
+      />
+      <button type="submit">Vender</button>
+    </form>
+  </body>
+</html>
