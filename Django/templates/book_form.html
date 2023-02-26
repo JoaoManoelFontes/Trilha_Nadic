@@ -7,6 +7,10 @@
     <title>Document</title>
   </head>
   <body>
+    {% if errors %}
+    <p>Por favor, corrija os erros abaixo:</p>
+    {{ errors }} {% endif %}
+    <br />
     <form method="POST" action="">
       {% csrf_token %} {{form.as_p}}
       <input type="submit" value="Cadastrar" />

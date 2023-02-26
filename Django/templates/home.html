@@ -1,4 +1,77 @@
-{% load static %}
+{% extends 'main.html' %} {% block content %} {% load static %}
+<nav class="main-info">
+  <div class="search-books">
+    <form method="GET" action="{% url 'home' %}">
+      <label for="search">Pesquisar livros: </label>
+      <br />
+      <input
+        type="text"
+        name="q"
+        id="search"
+        placeholder="Pesquise por categorias, títulos..."
+        value="{{query}}"
+      />
+    </form>
+  </div>
+  <div class="info-text">
+    <p>Vendedor: {{request.user}}</p>
+    <br />
+    <p>{{books_avaliable}} livro(s) encontrados</p>
+  </div>
+</nav>
+<hr />
+<br />
+<main>
+  <h2>Livros</h2>
+  {% for book in books %}
+  <div class="item">
+    <div class="book-infos">
+      <h1>{{book.title}}</h1>
+      <p>Sinópse : {{book.synopsis}}</p>
+      <p>Categoria: {{book.category}}</p>
+      <br />
+      <h3>{{book.price}}</h3>
+    </div>
+    <div class="book-actions">
+      {% if book.quantity > 0 %}
+      <p>Estoque: {{book.quantity}}</p>
+      <br />
+      <a href="{% url 'sale' book_id=book.id %}"><button>Vender</button></a>
+
+      {% else %}
+      <p>Estoque: Indisponível</p>
+      <br />
+      <button disabled>Vender</button>
+      {% endif %}
+      <a href="{% url 'update_book' book_id=book.id %}"
+        ><button>Editar {{book.title}}</button></a
+      >
+      <a href="{% url 'delete_book' book_id=book.id %}"
+        ><button>Excluir {{book.title}}</button></a
+      >
+      <form
+        action="{% url 'add_book' book_id=book.id %}"
+        method="get"
+        style="margin-top: 10%"
+      >
+        <label for="quantity">Adicionar ao estoque</label>
+
+        <input
+          style="border-radius: 10px; width: 170px"
+          id="quantity"
+          type="number"
+          name="quantity"
+          placeholder="  selecione um número..."
+        />
+      </form>
+      <br />
+    </div>
+  </div>
+  <hr />
+  {% endfor %}
+</main>
+{% endblock %}
+<!-- {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,17 +83,6 @@
 
     <link rel="stylesheet" href="{% static 'css\home.css' %}" />
   </head>
-  <nav>
-    <a href="/admin/login/?next=/admin/"><button>Login</button></a>
-    <form method="GET" action="{% url 'home' %}">
-      <input
-        type="text"
-        name="q"
-        placeholder="Search Books..."
-        value="{{query}}"
-      />
-    </form>
-  </nav>
   <body>
     <div class="book_count">
       <p>{{books_avaliable}} livro(s) encontrados</p>
@@ -92,4 +154,27 @@
     </ul>
     {% endfor %}
   </body>
-</html>
+  <body>
+    <header>
+      <h1>Bookstore</h1>
+      <nav>
+        <a href="{% url 'register_book' %}"><button>Adicionar livro</button></a>
+        <a href="{/admin/logout/"><button>Sair</button></a>
+      </nav>
+    </header>
+    <nav>
+      <p>Pesquisar livros</p>
+      <form method="GET" action="{% url 'home' %}">
+        <input
+          type="text"
+          name="q"
+          id="search"
+          placeholder="Pesquise por categorias, títulos..."
+          value="{{query}}"
+        />
+      </form>
+      <br />
+      <p>{{books_avaliable}} livros encontrados</p>
+    </nav>
+  </body>
+</html> -->

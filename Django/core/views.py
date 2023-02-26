@@ -30,6 +30,10 @@ def home(request):
         "query": query,
     }
 
+    # Se o suário não estiver autenticado, redireciona para a página de login
+    if not request.user.is_authenticated:
+        return redirect("/admin/login/?next=/")
+
     return render(request, "home.html", response)
 
 
@@ -70,6 +74,14 @@ def register_book(request):
             # Salvando o livro se ele for válido
             book.save()
             return redirect("home")
+
+        # Retornando o formulário com os erros, se houver
+        return render(
+            request,
+            "book_form.html",
+            {"form": BookForm(), "errors": book.errors},  # noqa
+        )
+
     return render(request, "book_form.html", {"form": BookForm()})
 
 
@@ -85,14 +97,21 @@ def register_category(request):
     return render(request, "category_form.html", {"form": CategoryForm()})
 
 
-# Rota de edição de livros
 def update_book(request, book_id):
+    """Rota de edição de livros (parecida com a rota de cadastro))"""
     book = Book.objects.get(pk=book_id)
     if request.method == "POST":
         book_form = BookForm(request.POST, instance=book)
         if book_form.is_valid():
             book_form.save()
             return redirect("home")
+
+        return render(
+            request,
+            "book_form.html",
+            {"form": BookForm(instance=book), "errors": book_form.errors},  # noqa
+        )
+
     return render(
         request,
         "book_form.html",
@@ -100,4 +119,14 @@ def update_book(request, book_id):
     )
 
 
-# Rota de histórico de vendas
+def delete_book(request, book_id):
+    """Rota de exclusão de livros"""
+    book = Book.objects.get(pk=book_id)
+    book.delete()
+    return redirect("home")
+
+
+def sales_history(request):
+    """Rota de histórico de vendas"""
+    sales = Sale.objects.all()
+    return render(request, "sales.html", {"sales": sales})
