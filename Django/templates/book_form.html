@@ -1,0 +1,12 @@
+{% extends 'main.html' %} {% block content %} {% load static %} {% if errors %}
+<p>Por favor, corrija os erros abaixo:</p>
+{{ errors }} {% endif %}
+<br />
+<form method="POST" action="">
+  {% csrf_token %} {{form.as_p}}
+  <input type="submit" value="Cadastrar" />
+</form>
+<a href="{% url 'register_category' %}"
+  ><button>Adicionar outra categoria</button></a
+>
+{% endblock %}
