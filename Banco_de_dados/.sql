@@ -32,8 +32,8 @@ SELECT * FROM category;
 
 
 -- # Selecionando todos os livros e sua respectiva categoria
-SELECT  title, synopsis, author_name, publishing_company_name, release_year,
-category.name FROM book inner join category on category_id = category.id;
+SELECT  title, category.name, synopsis, author_name, publishing_company_name, release_year
+FROM book inner join category on category_id = category.id;
 
 
 -- # Mostrando quantas vezes cada categoria foi atribuida a um livro
