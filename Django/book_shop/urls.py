@@ -15,5 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView  # noqa
 
-urlpatterns = [path("admin/", admin.site.urls), path("", include("core.urls"))]
+from core.api.viewsets import UserViewSet, BookViewSet
+
+router = routers.DefaultRouter()
+router.register(r"users", UserViewSet, basename="User")
+router.register(r"books", BookViewSet, basename="Book")
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),  # noqa
+    path(
+        "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
+    ),  # noqa
+    path("", include("core.urls")),
+    path("api/", include(router.urls)),
+]
