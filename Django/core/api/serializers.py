@@ -6,7 +6,7 @@ from rest_framework.serializers import (
 from django.utils.timezone import now
 
 from django.contrib.auth.models import User
-from ..models import Book, Category
+from ..models import Book, Category, Sale
 
 
 class UserSerializer(ModelSerializer):
@@ -75,3 +75,12 @@ class WriteBookSerializer(ModelSerializer):
         del validated_data["category"]
         book = Book.objects.create(**validated_data, category=category)
         return book
+
+
+class SaleSerializer(ModelSerializer):
+    seller = UserSerializer(read_only=True)
+    book = ReadBookSerializer(read_only=True)
+
+    class Meta:
+        model = Sale
+        fields = ["id", "seller", "book", "client_name"]

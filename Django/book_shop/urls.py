@@ -18,11 +18,12 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView  # noqa
 
-from core.api.viewsets import UserViewSet, BookViewSet
+from core.api.viewsets import UserViewSet, BookViewSet, SaleViewSet
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet, basename="User")
 router.register(r"books", BookViewSet, basename="Book")
+router.register(r"sales", SaleViewSet, basename="Sale")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
