@@ -10,14 +10,20 @@ from ..models import Book, Category, Sale
 
 
 class UserSerializer(ModelSerializer):
+    # Serializer para o model de Usuários
+    is_superuser = SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ["username", "email", "password"]
+        fields = ["username", "email", "password", "is_superuser"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+    def get_is_superuser(self, obj):
+        return obj.is_superuser
 
 
 class CategorySerializer(ModelSerializer):
