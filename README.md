@@ -35,4 +35,15 @@
 
 ### Projeto 4: Django Rest Framework
 
-- Status: Em desenvolvimento
+- Feature do projeto 3
+- Foi criado uma API Rest com a biblioteca django-rest-framework para o projeto 4
+- A API tem endpoints para listar, criar, editar e deletar (CRUD) livros, vendas e usuários.
+- A API tem um sistema de autenticação com token JWT.
+- A API tem um sistema de permissões para os usuários, sendo alguns endpoints permitidos apenas para o admin (superuser do django).
+- Além dos CRUDs, a API tem endpoints para mostrar o histórico de vendas de um usuário específico e para visualizar o faturamento total da empresa (apenas admin).
+
+#### Regras de negócio
+
+- Para criar um usuário, não é necessário estar logado.
+- Para o CRUD de livros e de vendas, é necessário estar logado.
+- Para visualizar o faturamento total da empresa, é necessário ser admin.
