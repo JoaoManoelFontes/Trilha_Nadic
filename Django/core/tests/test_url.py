@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.urls import reverse, resolve
 from ..models import Book, Category
 
+# from django.contrib.auth.models import User
+
 
 class UrlTest(TestCase):
     def setUp(self):
