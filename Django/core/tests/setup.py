@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from rest_framework.test import APIClient
 
 from django.urls import reverse
 
@@ -10,9 +11,13 @@ from ..models import Book, Category
 class MainTest(TestCase):
     def setUp(self):
         self.client = Client()
+        self.api_client = APIClient()
 
         self.user_password = "test"
         self.user_name = "testuser"
+
+        self.superuser_password = "test"
+        self.superuser_name = "testsuperuser"
 
         self.user = User.objects.create(
             username="testuser",
@@ -40,3 +45,16 @@ class MainTest(TestCase):
         self.update_book_url = reverse("update_book", args=[self.book.id])
         self.delete_book_url = reverse("delete_book", args=[self.book.id])
         self.sales_history_url = reverse("sales_history")
+
+        self.token_url = "/api/token/"
+        self.books_api_url = "/api/books/"
+        self.users_api_url = "/api/users/"
+        self.sales_api_url = "/api/sales/"
+
+        self.token = self.client.post(
+            self.token_url,
+            {
+                "username": self.user_name,
+                "password": self.user_password,
+            },
+        ).json()["access"]
