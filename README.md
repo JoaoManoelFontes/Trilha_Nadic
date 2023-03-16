@@ -23,6 +23,7 @@
 - A conta é criada pelo `superuser` do django
 - O vendedor pode adicionar livros, editar e remover livros. Além de aumentar o estoque de um produto e vendê-los, diminuindo o estoque.
 - O vendedor pode ver o histórico de vendas geral e o pessoal dele.
+- Foram adicionados testes unitários para todas as urls e views do projeto.
 
 #### Como rodar o projeto
 
@@ -41,6 +42,7 @@
 - A API tem um sistema de autenticação com token JWT.
 - A API tem um sistema de permissões para os usuários, sendo alguns endpoints permitidos apenas para o admin (superuser do django).
 - Além dos CRUDs, a API tem endpoints para mostrar o histórico de vendas de um usuário específico e para visualizar o faturamento total da empresa (apenas admin).
+- Foram adicionados testes unitários para todas as viewsets do projeto.
 
 #### Regras de negócio
 

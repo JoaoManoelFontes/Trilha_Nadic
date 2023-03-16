@@ -12,7 +12,7 @@ from .serializers import (
     SaleSerializer,
     UserSerializer,
     WriteBookSerializer,
-)  # noqa
+)
 from ..models import Book, Sale
 
 
@@ -40,7 +40,7 @@ class BookViewSet(ModelViewSet):
         "title",
         "author_name",
         "category__name",
-    )  # Campos do filtro # noqa
+    )  # Campos do filtro
 
     def get_serializer_class(self):
         # Define qual serializer será usado de acordo com a ação

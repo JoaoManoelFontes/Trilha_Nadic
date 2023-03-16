@@ -82,6 +82,20 @@ class WriteBookSerializer(ModelSerializer):
         book = Book.objects.create(**validated_data, category=category)
         return book
 
+    def update(self, instance, validated_data):
+        category_data = validated_data["category"]
+        try:
+            category = Category.objects.get(**category_data)
+        except Category.DoesNotExist:
+            category = Category.objects.create(**category_data)
+
+        del validated_data["category"]
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+        instance.category = category
+        instance.save()
+        return instance
+
 
 class SaleSerializer(ModelSerializer):
     seller = UserSerializer(read_only=True)
