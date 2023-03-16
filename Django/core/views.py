@@ -129,7 +129,6 @@ def delete_book(request, book_id):
 
 def sales_history(request):
     """Rota de histórico de vendas"""
-    billing = []
     if request.GET.get("seller") is not None:
         # Obtendo o usuário e filtrando as vendas dele
         user = get_object_or_404(User, username=request.GET.get("seller"))
@@ -139,9 +138,6 @@ def sales_history(request):
         sales = Sale.objects.all()
 
     # Calculando o valor total das vendas (em geral ou de um usuário)
-    for sale in sales:
-        billing.append(sale.book.price)
+    billing = sales.values_list("book__price", flat=True)
 
-    return render(
-        request, "sales.html", {"sales": sales, "billing": sum(billing)}
-    )  # noqa
+    return render(request, "sales.html", {"sales": sales, "billing": sum(billing)})
