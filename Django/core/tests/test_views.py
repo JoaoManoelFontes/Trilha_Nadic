@@ -55,12 +55,14 @@ class ViewTest(MainTest):
         self.client.logout()
 
     def test_register_book_get(self):
+        self.client.login(username=self.user.username, password=self.user_password)
         response = self.client.get(self.register_book_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "book_form.html")
 
     def test_register_book_post(self):
+        self.client.login(username=self.user.username, password=self.user_password)
         response = self.client.post(
             self.register_book_url,
             {
@@ -80,12 +82,14 @@ class ViewTest(MainTest):
         self.assertTrue(Book.objects.filter(title="Test Book 2").exists())
 
     def test_register_category_get(self):
+        self.client.login(username=self.user.username, password=self.user_password)
         response = self.client.get(self.register_category_url)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "category_form.html")
 
     def test_register_category_post(self):
+        self.client.login(username=self.user.username, password=self.user_password)
         response = self.client.post(
             self.register_category_url, {"name": "Test Category 2"}
         )
@@ -126,6 +130,7 @@ class ViewTest(MainTest):
         self.assertEqual(Book.objects.count(), 0)
 
     def test_sales_history(self):
+        self.client.login(username=self.user.username, password=self.user_password)
         response = self.client.get(self.sales_history_url)
 
         self.assertEqual(response.status_code, 200)

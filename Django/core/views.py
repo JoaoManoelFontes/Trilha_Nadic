@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Q
 
-
+from django.contrib.auth.decorators import login_required
 from .forms.book_form import BookForm
 from .forms.category_form import CategoryForm
 
@@ -9,6 +9,7 @@ from .models import Book, Category, Sale
 from django.contrib.auth.models import User
 
 
+@login_required(login_url="/admin/login/?next=/")  # Rota protegida
 def home(request):
     """Rota da página inicial"""
 
@@ -31,13 +32,10 @@ def home(request):
         "query": query,
     }
 
-    # Se o suário não estiver autenticado, redireciona para a página de login
-    if not request.user.is_authenticated:
-        return redirect("/admin/login/?next=/")
-
     return render(request, "home.html", response)
 
 
+@login_required(login_url="/admin/login/?next=/")
 def sale(request, book_id):
     """Rota de venda de livros"""
 
@@ -66,6 +64,7 @@ def add_book(request, book_id):
     return redirect("home")
 
 
+@login_required(login_url="/admin/login/?next=/book/register")
 def register_book(request):
     """Rota de cadastro de livros"""
     if request.method == "POST":
@@ -86,6 +85,7 @@ def register_book(request):
     return render(request, "book_form.html", {"form": BookForm()})
 
 
+@login_required(login_url="/admin/login/?next=/category/register")
 def register_category(request):
     """Rota de cadastro de categorias"""
     if request.method == "POST":
@@ -127,6 +127,7 @@ def delete_book(request, book_id):
     return redirect("home")
 
 
+@login_required(login_url="/admin/login/?next=/sales/")
 def sales_history(request):
     """Rota de histórico de vendas"""
     if request.GET.get("seller") is not None:
