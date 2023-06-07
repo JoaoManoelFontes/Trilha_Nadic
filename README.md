@@ -5,7 +5,7 @@
 ### Projeto 1: Git e Github
 
 - Esse repositório foi criado usando o git integrado com o gitflow.
-- O gitflow foi utilizado para gerar a branch de developmentm, além de criar as branches de feature (recursos e funcionalidades) e de release (lançamento e versão).
+- O gitflow foi utilizado para gerar a branch de development, além de criar as branches de feature (recursos e funcionalidades) e de release (lançamento e versão).
 - Foram usados comandos como `git flow init`; `git flow feature init ...` ; `git flow release start ...`; Entre outros.
 
 ### Projeto 2: MySQL
