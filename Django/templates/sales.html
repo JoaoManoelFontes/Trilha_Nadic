@@ -5,13 +5,16 @@
     Suas vendas
   </button>
 </form>
-{% for sale in sales %}
-<p>Venda de: {{sale.book.title}}</p>
-<p>{{sale.book.price}}</p>
-<p>{{sale.seller}}</p>
-<p>{{sale.client_name}}</p>
-{% endfor %}
-<hr />
+<div class="container" style="margin: 5% 5% 0 5%;">
+  {% for sale in sales %}
+  <p>Venda de: {{sale.book.title}}</p>
+  <p>Preço: {{sale.book.price}}</p>
+  <p>Vendedor: {{sale.seller}}</p>
+  <p>Cliente: {{sale.client_name}}</p>
+  <hr />
+  {% endfor %}
+</div>
+<br />
 <h2>Faturamento total:</h2>
 <p>{{billing}}</p>
 {% endblock %}
