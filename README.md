@@ -49,3 +49,6 @@
 - Para criar um usuário, não é necessário estar logado.
 - Para o CRUD de livros e de vendas, é necessário estar logado.
 - Para visualizar o faturamento total da empresa, é necessário ser admin.
+
+- develop branch
+
